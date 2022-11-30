@@ -9,4 +9,4 @@ on:
 
 jobs:
   call-workflow-in-public-repo:
-    uses: ./.github/workflows/_shared-pr-lint.yml@main
+    uses: ./.github/workflows/_shared-pr-lint.yml
