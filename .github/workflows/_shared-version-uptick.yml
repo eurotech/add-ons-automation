@@ -1,4 +1,4 @@
-name: Version uptick automation
+name: "Version uptick automation (shared)"
 
 on:
   workflow_call:
