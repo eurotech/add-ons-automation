@@ -4,11 +4,10 @@ This repository contains GitHub actions and reusable workflows used for automati
 
 ## Project structure
 
-```
-.
-├── README.md
-├── samples
-│   └── # Contains the samples of workflows that can be added to a repository to use the actions and workflows in this repository
-└── workflows
-    └── # Contains the reusable workflows and their configuration/template files
-```
+### `workflows` folder
+
+The `workflows` folder contains the reusable workflows and their configuration/template files.
+
+### `samples` folder
+
+The `samples` folder contains the samples of workflows that can be added to a repository to use the actions and workflows in this repository.
