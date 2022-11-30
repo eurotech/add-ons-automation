@@ -63,8 +63,8 @@ jobs:
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4
       with:
-        title: chore: automated uptick to ${{ steps.get-version.outputs.version }}
-        commit-message: chore: automated uptick to ${{ steps.get-version.outputs.version }}
+        title: "chore: automated uptick to ${{ steps.get-version.outputs.version }}"
+        commit-message: "chore: automated uptick to ${{ steps.get-version.outputs.version }}"
         body: |
           Automated changes by [_Version uptick automation_](https://github.com/eurotech/add-ons-automation/blob/main/.github/workflows/_shared-backport.yml) action.
           - Automated uptick to ${{ steps.get-version.outputs.version }} version.
