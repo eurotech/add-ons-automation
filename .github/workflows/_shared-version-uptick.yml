@@ -52,7 +52,7 @@ jobs:
 
     - name: Get version
       id: get-version
-      uses: JActions/maven-version@v1.0.0
+      uses: JActions/maven-version@v1.2.0
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4
