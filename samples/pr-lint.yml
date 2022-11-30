@@ -9,4 +9,4 @@ on:
 
 jobs:
   call-workflow-in-public-repo:
-    uses: eurotech/add-ons-automation/workflows/pr-lint/action@main
+    uses: eurotech/add-ons-automation/.github/workflows/_shared-pr-lint.yml@main
