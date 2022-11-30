@@ -29,7 +29,7 @@ jobs:
     - name: Download desired upticker configuration file
       uses: carlosperate/download-file-action@v1
       with:
-        file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/version_workflow/${{ inputs.uptick_config }}
+        file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/version_uptick/${{ inputs.uptick_config }}
 
     - name: Make the uptick tool executable
       run: |
