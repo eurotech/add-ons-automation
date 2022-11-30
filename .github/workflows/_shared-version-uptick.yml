@@ -5,16 +5,9 @@ on:
     inputs:
         target_branch:
           type: string
-          default: 'develop'
           required: true
         uptick_config:
-          type: choice
-          description: Configuration to use for the uptick
-          options:
-            - uptick_major_on_develop_branch.yml
-            - uptick_minor_on_develop_branch.yml
-            - uptick_patch_on_maintenance_branch.yml
-            - uptick_snapshot_to_release.yml
+          type: string
           required: true
 
 jobs:
@@ -25,7 +18,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        ref: ${{ github.event.inputs.target_branch }}
+        ref: ${{ inputs.target_branch }}
 
     - name: Download ESF version upticker tool
       uses: carlosperate/download-file-action@v1
@@ -35,7 +28,7 @@ jobs:
     - name: Download desired upticker configuration file
       uses: carlosperate/download-file-action@v1
       with:
-        file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/version_workflow/${{ github.event.inputs.uptick_config }}
+        file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/version_workflow/${{ inputs.uptick_config }}
 
     - name: Make the uptick tool executable
       run: |
@@ -46,14 +39,14 @@ jobs:
       run: |
         ./version-uptick-0.1.0-linux-x86_64 \
         --commit --trace process-versions \
-        --config-path ${{ github.event.inputs.uptick_config }} \
+        --config-path ${{ inputs.uptick_config }} \
         --root-dir .
       shell: bash
 
     - name: Cleanup
       run: |
         rm ./version-uptick-0.1.0-linux-x86_64 \
-        ${{ github.event.inputs.uptick_config }}
+        ${{ inputs.uptick_config }}
       shell: bash
 
     - name: Get version
@@ -68,5 +61,5 @@ jobs:
         body: |
           Automated changes by [_Version uptick automation_](https://github.com/eurotech/add-ons-automation/blob/main/.github/workflows/_shared-backport.yml) action.
           - Automated uptick to ${{ steps.get-version.outputs.version }} version.
-          - Automation ran using `${{ github.event.inputs.uptick_config }}` configuration.
+          - Automation ran using `${{ inputs.uptick_config }}` configuration.
         branch-suffix: short-commit-hash
