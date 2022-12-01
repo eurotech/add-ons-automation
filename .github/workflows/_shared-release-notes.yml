@@ -29,8 +29,6 @@ jobs:
         )\" >> \"${GITHUB_OUTPUT}\""
       shell: bash
 
-    # TODO: Get description to be used inside release notes
-
     - name: Download git-changelog-command-line tool
       id: download-changelog-cli
       uses: clausnz/github-action-download-maven-artifact@master
