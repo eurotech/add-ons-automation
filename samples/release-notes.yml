@@ -1,4 +1,4 @@
-name: "Version uptick automation"
+name: "Release Notes automation"
 
 on:
   workflow_dispatch:
