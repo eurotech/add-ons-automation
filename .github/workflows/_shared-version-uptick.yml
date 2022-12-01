@@ -3,10 +3,6 @@ name: "Version uptick automation (shared)"
 on:
   workflow_call:
     inputs:
-        target_branch:
-          type: string
-          default: 'develop'
-          required: true
         uptick_config:
           type: string
           required: true
@@ -16,10 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout
+    - name: Checkout ${{ github.ref }} branch in ${{ github.repository }} repository.
       uses: actions/checkout@v3
-      with:
-        ref: ${{ inputs.target_branch }}
 
     - name: Download ESF version upticker tool
       uses: carlosperate/download-file-action@v1
