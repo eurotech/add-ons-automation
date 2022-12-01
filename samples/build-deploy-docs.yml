@@ -9,5 +9,3 @@ on:
 jobs:
   call-workflow-in-public-repo:
     uses: eurotech/add-ons-automation/.github/workflows/_shared-build-deploy-docs.yml@main
-    with:
-      uptick_config: ${{ inputs.uptick_config }}
