@@ -1,0 +1,77 @@
+name: "Release Notes automation (shared)"
+
+on:
+  workflow_call:
+    inputs:
+        starting_commit:
+          type: string
+          required: true
+
+jobs:
+  main:
+    name: Generate Release Notes
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout ${{ github.ref }} branch in ${{ github.repository }} repository.
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
+
+    - name: Get version
+      id: get-version
+      run: "echo \"resolved-version=\
+        $(mvn
+          --file ./pom.xml
+          -Dexec.executable=echo
+          -Dexec.args='${project.version}'
+          --quiet exec:exec --non-recursive
+        )\" >> \"${GITHUB_OUTPUT}\""
+      shell: bash
+
+    # TODO: Get description to be used inside release notes
+
+    - name: Download git-changelog-command-line tool
+      id: download-changelog-cli
+      uses: clausnz/github-action-download-maven-artifact@master
+      with:
+        url: 'https://repo1.maven.org'
+        repository: 'maven2'
+        groupId: 'se.bjurr.gitchangelog'
+        artifactId: 'git-changelog-command-line'
+        version: '1.100.2'
+        extension: 'jar'
+
+    - name: Download release notes template
+      uses: carlosperate/download-file-action@v1
+      with:
+        file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/release_notes/template.hbs
+
+    - name: Download release notes helper
+      uses: carlosperate/download-file-action@v1
+      with:
+        file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/release_notes/helper.hbs
+
+    - name: Generate Release Notes
+      run: |
+        java -jar ${{ steps.download-changelog-cli.outputs.file }} \
+        -fc "${{ github.event.inputs.starting_commit }}" \
+        -ex "{\"version\":\"${{ steps.get-version.outputs.resolved-version }}\"}" \
+        -t ./template.hbs \
+        -hhf ./helper.hbs \
+        -of ./RELEASE_NOTES.txt
+
+    - name: Cleanup
+      run: |
+        rm \*.hbs
+      shell: bash
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        title: "chore: add ${{ steps.get-version.outputs.resolved-version }} release notes"
+        commit-message: "chore: add ${{ steps.get-version.outputs.resolved-version }} release notes"
+        body: |
+           Automated changes by [_Release Notes automation_](https://github.com/eurotech/add-ons-automation/blob/main/.github/workflows/_shared-release-notes.yml) action.
+           - Add ${{ steps.get-version.outputs.version }} version release notes since commit `${{ github.event.inputs.starting_commit }}` (non-inclusive).
+        branch-suffix: short-commit-hash
