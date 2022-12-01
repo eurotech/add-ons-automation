@@ -1,11 +1,7 @@
 {{extended.project_name}} - {{extended.version}} - {{{date}}}
 -------------------------------------------------------------------------------------------------
 Description:
-[TODO]
-
-{{#issues}}
-{{! Features section }}
-{{#ifContainsType commits type='feat'}}
+  [TODO]
 
 The bundle uses the following dependencies:
   - [TODO]
@@ -17,6 +13,10 @@ NOTE: The bundles in this add-on have been signed with the following key:
   [TODO - update if changed] "EUROTECH S.p.A. ESF Add-On Bundle Signing 2022".
   Please see https://esf.eurotech.com/docs/bundle-signing for more information about
   bundle signing and signature verification.
+
+{{#issues}}
+{{! Features section }}
+{{#ifContainsType commits type='feat'}}
 
 Features:
   {{#commits}}
