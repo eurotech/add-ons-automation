@@ -9,7 +9,7 @@ on:
           required: true
 
 jobs:
-  call-workflow-in-public-repo:
+  Call remote workflow:
     uses: eurotech/add-ons-automation/.github/workflows/_shared-release-notes.yml@main
     with:
       starting_commit: ${{ inputs.starting_commit }}

@@ -14,7 +14,7 @@ on:
           required: true
 
 jobs:
-  call-workflow-in-public-repo:
+  Call remote workflow:
     uses: eurotech/add-ons-automation/.github/workflows/_shared-version-uptick.yml@main
     with:
       uptick_config: ${{ inputs.uptick_config }}

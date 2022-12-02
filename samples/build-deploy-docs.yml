@@ -7,5 +7,5 @@ on:
       - 'docs-release-*.*'
 
 jobs:
-  call-workflow-in-public-repo:
+  Call remote workflow:
     uses: eurotech/add-ons-automation/.github/workflows/_shared-build-deploy-docs.yml@main
