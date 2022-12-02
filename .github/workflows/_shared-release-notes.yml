@@ -62,9 +62,19 @@ jobs:
         file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/release_notes/helper.hbs
 
     - name: Generate Release Notes
+      env:
+        COMMIT_START: ${{ github.event.inputs.starting_commit }}
       run: |
+        if [[ ! "$COMMIT_START" =~ ^[a-zA-Z0-9]{40}$ ]]
+        then
+          printf "Error!  Not a valid Git commit hash.\n"
+          exit 1
+        else
+          printf "Git commit hash is valid.\n"
+        fi
+
         java -jar ${{ steps.download-changelog-cli.outputs.file }} \
-        -fc "${{ github.event.inputs.starting_commit }}" \
+        -fc "$COMMIT_START" \
         -ex "{\"version\":\"${{ steps.get-version.outputs.resolved-version }}\", \"name\":\"${{ steps.get-project-name.outputs.resolved-name}}\"}" \
         -t ./template.hbs \
         -hhf ./helper.hbs \
