@@ -29,6 +29,17 @@ jobs:
         )\" >> \"${GITHUB_OUTPUT}\""
       shell: bash
 
+    - name: Get project name
+      id: get-project-name
+      run: "echo \"resolved-name=\
+        $(mvn
+          --file ./pom.xml
+          -Dexec.executable=echo
+          -Dexec.args='${project.name}'
+          --quiet exec:exec --non-recursive
+        )\" >> \"${GITHUB_OUTPUT}\""
+      shell: bash
+
     - name: Download git-changelog-command-line tool
       id: download-changelog-cli
       uses: clausnz/github-action-download-maven-artifact@master
@@ -54,7 +65,7 @@ jobs:
       run: |
         java -jar ${{ steps.download-changelog-cli.outputs.file }} \
         -fc "${{ github.event.inputs.starting_commit }}" \
-        -ex "{\"version\":\"${{ steps.get-version.outputs.resolved-version }}\"}" \
+        -ex "{\"version\":\"${{ steps.get-version.outputs.resolved-version }}\", \"name\":\"${{ steps.get-project-name.outputs.resolved-name}}\"}" \
         -t ./template.hbs \
         -hhf ./helper.hbs \
         -of ./RELEASE_NOTES.txt
