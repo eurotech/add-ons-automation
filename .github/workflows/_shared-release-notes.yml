@@ -41,7 +41,7 @@ jobs:
       shell: bash
 
     - name: Download git-changelog-command-line tool
-      id: download-file-action
+      id: download-changelog-cli
       uses: carlosperate/download-file-action@v1
       with:
         file-url: https://repo1.maven.org/maven2/se/bjurr/gitchangelog/git-changelog-command-line/1.100.2/git-changelog-command-line-1.100.2.jar
