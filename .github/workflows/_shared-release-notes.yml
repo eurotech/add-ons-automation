@@ -41,15 +41,11 @@ jobs:
       shell: bash
 
     - name: Download git-changelog-command-line tool
-      id: download-changelog-cli
-      uses: clausnz/github-action-download-maven-artifact@0.0.4
+      id: download-file-action
+      uses: carlosperate/download-file-action@v1
       with:
-        url: 'https://repo1.maven.org'
-        repository: 'maven2'
-        groupId: 'se.bjurr.gitchangelog'
-        artifactId: 'git-changelog-command-line'
-        version: '1.100.2'
-        extension: 'jar'
+        file-url: https://repo1.maven.org/maven2/se/bjurr/gitchangelog/git-changelog-command-line/1.100.2/git-changelog-command-line-1.100.2.jar
+        md5: 09d5fc8b57b3fa9adb94c8d207630cfc
 
     - name: Download release notes template
       uses: carlosperate/download-file-action@v1
@@ -73,7 +69,7 @@ jobs:
           printf "Git commit hash is valid.\n"
         fi
 
-        java -jar ${{ steps.download-changelog-cli.outputs.file }} \
+        java -jar ${{ steps.download-changelog-cli.outputs.file-path }} \
         -fc "$COMMIT_START" \
         -ex "{\"version\":\"${{ steps.get-version.outputs.resolved-version }}\", \"name\":\"${{ steps.get-project-name.outputs.resolved-name}}\"}" \
         -t ./template.hbs \
