@@ -78,7 +78,7 @@ jobs:
 
     - name: Cleanup
       run: |
-        rm ./template.hbs ./helper.hbs
+        rm ./template.hbs ./helper.hbs ${{ steps.download-changelog-cli.outputs.file-path }}
       shell: bash
 
     - name: Create Pull Request
