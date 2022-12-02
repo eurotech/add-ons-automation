@@ -8,5 +8,5 @@ on:
       - synchronize
 
 jobs:
-  Call remote workflow:
+  call-workflow-in-public-repo:
     uses: ./.github/workflows/_shared-pr-lint.yml
