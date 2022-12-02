@@ -82,7 +82,7 @@ jobs:
 
     - name: Cleanup
       run: |
-        rm \*.hbs
+        rm ./template.hbs ./helper.hbs
       shell: bash
 
     - name: Create Pull Request
