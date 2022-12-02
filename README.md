@@ -6,7 +6,7 @@ This repository contains GitHub actions and reusable workflows used for automati
 
 ### `.github/workflows` folder
 
-The `workflows` folder contains the reusable workflows and their configuration/template files. They're easily identified by the `_shared-*` identifier.
+The `workflows` folder contains the reusable Github workflows. They're easily identified by the `_shared-*` identifier.
 
 ### `samples` folder
 
@@ -16,4 +16,4 @@ In other words: in order to use one of the re-usable workflows contained in the 
 
 ### `config` folder
 
-The `config` folder contains the configuration files needed by the re-usable workflows.
+The `config` folder contains the configuration/template files needed by the re-usable workflows.
