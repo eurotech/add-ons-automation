@@ -6,5 +6,5 @@ on:
       - labeled
 
 jobs:
-  call-workflow-in-public-repo:
+  Call remote workflow:
     uses: eurotech/add-ons-automation/.github/workflows/_shared-backport.yml@main
