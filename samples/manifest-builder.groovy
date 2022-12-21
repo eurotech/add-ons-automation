@@ -32,7 +32,7 @@ node ("rhel-large") {
                     configFile(fileId: 'CHANGEME',
                     targetLocation: "${WORKSPACE}/.repository/settings-security.xml")
                     ]) {
-                        sh "mvn -Dexec.executable=echo -Dexec.args='${project.artifactId},${project.name},${project.version}' --quiet exec:exec > ${descriptorsFile}"
+                        sh "mvn -Dexec.executable=echo -Dexec.args='\${project.artifactId},\${project.name},\${project.version}' --quiet exec:exec > ${descriptorsFile}"
                 }
             }
 
