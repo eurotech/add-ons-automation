@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 
-"""Artifact repository mainfest.json file builder script
+"""ESF Add-ons manifest builder script
 
-This script builds the manifest.json file needed by the artifact repository.
+This script builds the manifest.json file needed by the artifact repository
+for the ESF Add-ons artifacts.
 It will compute the md5 and size of every file in the folder passed as argument
 and correctly populate the manifest.json file in the same directory.
-It also has an interactive mode for setting the description for every file in the
-directory at run-time.
+This script is intended to be used inside the RC build Jenkins pipeline of
+the ESF add-ons.
 """
 
 import os
@@ -16,11 +17,28 @@ import json
 import argparse
 
 
+def retrieveCategory(filename):
+    if ".txt" in filename:
+        return "Release Notes"
+
+    return "Add-ons"
+
+
+def retrieveDescription(filename):
+    # TODO
+    if ".txt" in filename:
+        return "Release notes"
+
+    return "placeholder"
+
+
 def main():
     # Get options
     parser = argparse.ArgumentParser(description="Artifact repository manifest.json file builder script")
     parser.add_argument("-f", "--folder_path", help="Folder path for the desired manifest file", required=True)
-    parser.add_argument("-i", "--interactive_mode", help="Enable interactive mode", action="store_true", default=False)
+    parser.add_argument("-v", "--project_version", help="Project version as reported by maven", required=True)
+    parser.add_argument("-n", "--project_name", help="Project name as reported by maven", required=True)
+    parser.add_argument("-b", "--build_number", help="Build number as reported by the Jenkins build", required=True)
 
     args = parser.parse_args()
 
@@ -28,12 +46,10 @@ def main():
     path = os.path.abspath(args.folder_path)
     filenames = glob.glob(os.path.join(path, "*"))
 
-    # If in interactive mode ask user for version
-    version = ""
-    if args.interactive_mode:
-        print("Version of the package: ")
-        version = str(input(">:")).strip()
-        print()
+    # Retrieve metadata from command line arguments
+    name = args.project_name
+    version = args.project_version
+    build_number = args.build_number
 
     # Files descriptor array
     files_array = []
@@ -52,28 +68,13 @@ def main():
         visibility = (".dp" in filename or ".txt" in filename)
 
         # Decide category and description field
-        category = "Add-ons"
-        description = "placeholder"
-        if ".txt" in filename:
-            category = "Release Notes"
-            description = "Release notes"
-
-        # Ask description to user if interactive mode enabled
-        if args.interactive_mode and description == "placeholder":
-            print("Input description for '%s' omitting version ('s' for skipping file)" % os.path.basename(filename))
-            description = str(input(">:")).strip()
-
-            if description.lower() == "s":
-                print()
-                continue
-
-            description = "%s (%s)" % (description, version)
-            print()
+        category = retrieveCategory(filename)
+        description = retrieveDescription(filename)
 
         # Append dictionary to files descriptor array
         files_array.append({
             "category": category,
-            "description": description,
+            "description": ("%s (%s)" % (description, version)),
             "name": os.path.basename(filename),
             "visible": visibility,
             "md5": md5hash,
@@ -83,8 +84,8 @@ def main():
     # Build json object
     data = {
         "files": files_array,
-        "product": "placeholder",
-        "version": "placeholder",
+        "product": name,
+        "version": ("%s_%s" % (version, build_number)),
         "public": False
     }
 
@@ -93,7 +94,6 @@ def main():
     with open(manifest_path, 'w', encoding='utf-8') as manifest_file:
         json.dump(data, manifest_file, indent=4, ensure_ascii=False)
 
-    print("Mainfest written to: ", manifest_path)
 
 if __name__ == '__main__':
     main()
