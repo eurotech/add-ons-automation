@@ -33,8 +33,8 @@ def retrieveDescription(filename):
 
 
 def main():
-    # Get options
-    parser = argparse.ArgumentParser(description="Artifact repository manifest.json file builder script")
+    # Get CLI arguments
+    parser = argparse.ArgumentParser(description="ESF Add-ons manifest builder script")
     parser.add_argument("-f", "--folder_path", help="Folder path where the files are stored and where the computed manifest file will be saved", required=True)
     parser.add_argument("-v", "--project_version", help="Project version as reported by maven", required=True)
     parser.add_argument("-n", "--project_name", help="Project name as reported by maven", required=True)
@@ -45,11 +45,6 @@ def main():
     # Find all files in desired directory
     path = os.path.abspath(args.folder_path)
     filenames = glob.glob(os.path.join(path, "*"))
-
-    # Retrieve metadata from command line arguments
-    name = args.project_name
-    version = args.project_version
-    build_number = args.build_number
 
     # Files descriptor array
     files_array = []
@@ -74,7 +69,7 @@ def main():
         # Append dictionary to files descriptor array
         files_array.append({
             "category": category,
-            "description": ("%s (%s)" % (description, version)),
+            "description": ("%s (%s)" % (description, args.project_version)),
             "name": os.path.basename(filename),
             "visible": visibility,
             "md5": md5hash,
@@ -84,8 +79,8 @@ def main():
     # Build json object
     data = {
         "files": files_array,
-        "product": name,
-        "version": ("%s_%s" % (version, build_number)),
+        "product": args.project_name,
+        "version": ("%s_%s" % (args.project_version, args.build_number)),
         "public": False
     }
 
