@@ -17,6 +17,7 @@ import hashlib
 import json
 import os
 import re
+import logging
 
 
 def compute_MD5_hash(file_path):
@@ -75,7 +76,7 @@ def retrieve_description(filename, csv_descriptions):
         if noext_filename == expected_name:
             return values.get("description")
 
-    print("No match found for '%s'. Setting placeholder description." % base_filename)
+    logging.warning("No match found for '%s'. Setting placeholder description." % base_filename)
     return "placeholder"
 
 
