@@ -19,6 +19,17 @@ import os
 import re
 
 
+def compute_MD5_hash(file_path):
+    """Computes the MD5 hash of the file passed as argument"""
+
+    md5hash = ''
+    with open(file_path, 'rb') as inputfile:
+        data = inputfile.read()
+        md5hash = hashlib.md5(data).hexdigest()
+
+    return md5hash
+
+
 def parse_description_CSV_file(file_path):
     """Parses the CSV file passed as argument and builds a dictionary containing its informations"""
 
@@ -94,23 +105,13 @@ def main():
 
     # Files descriptor array
     files_array = []
-
     for filename in filenames:
-        # Compute md5 hash
-        md5hash = ''
-        with open(filename, 'rb') as inputfile:
-            data = inputfile.read()
-            md5hash = hashlib.md5(data).hexdigest()
-
-        # Compute size
-        size = os.path.getsize(filename)
-
-        # Decide visibility
-        visibility = (".dp" in filename or ".txt" in filename)
-
-        # Decide category and description field
-        category = retrieve_category(filename)
+        # Compute metadata
+        category    = retrieve_category(filename)
         description = retrieve_description(filename, csv_descriptions)
+        visibility  = (".dp" in filename or ".txt" in filename)
+        md5hash     = compute_MD5_hash(filename)
+        size        = os.path.getsize(filename)
 
         # Append dictionary to files descriptor array
         files_array.append({
