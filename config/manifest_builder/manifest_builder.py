@@ -35,10 +35,10 @@ def retrieveDescription(filename):
 def main():
     # Get CLI arguments
     parser = argparse.ArgumentParser(description="ESF Add-ons manifest builder script")
-    parser.add_argument("-f", "--folder_path", help="Folder path where the files are stored and where the computed manifest file will be saved", required=True)
-    parser.add_argument("-v", "--project_version", help="Project version as reported by maven", required=True)
-    parser.add_argument("-n", "--project_name", help="Project name as reported by maven", required=True)
-    parser.add_argument("-b", "--build_number", help="Build number as reported by the Jenkins build", required=True)
+    parser.add_argument("-f", "--folder_path", type=str, help="Folder path where the files are stored and where the computed manifest file will be saved", required=True)
+    parser.add_argument("-v", "--project_version", type=str, help="Project version as reported by maven", required=True)
+    parser.add_argument("-n", "--project_name", type=str, help="Project name as reported by maven", required=True)
+    parser.add_argument("-b", "--build_number", type=int, help="Build number as reported by the Jenkins build", required=True)
 
     args = parser.parse_args()
 
@@ -80,7 +80,7 @@ def main():
     data = {
         "files": files_array,
         "product": args.project_name,
-        "version": ("%s_%s" % (args.project_version, args.build_number)),
+        "version": ("%s_%d" % (args.project_version, args.build_number)),
         "public": False
     }
 
