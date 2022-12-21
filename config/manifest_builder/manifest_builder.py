@@ -19,7 +19,7 @@ import os
 import re
 
 
-def parseDescriptionCSVFile(file_path):
+def parse_description_CSV_file(file_path):
     """Parses the CSV file passed as argument and builds a dictionary containing its informations"""
 
     dict = {}
@@ -34,7 +34,7 @@ def parseDescriptionCSVFile(file_path):
     return dict
 
 
-def retrieveCategory(filename):
+def retrieve_category(filename):
     """Retrieves category information for the filename passed as argument"""
 
     if ".txt" in filename:
@@ -43,7 +43,7 @@ def retrieveCategory(filename):
     return "Add-ons"
 
 
-def retrieveDescription(filename, csv_descriptions):
+def retrieve_description(filename, csv_descriptions):
     """Retrieves the description for the filename passed as argument using the CSV file content"""
 
     if ".txt" in filename:
@@ -90,7 +90,7 @@ def main():
     filenames = glob.glob(os.path.join(path, "*"))
 
     # Parse CSV file
-    csv_descriptions = parseDescriptionCSVFile(args.csv_file_path)
+    csv_descriptions = parse_description_CSV_file(args.csv_file_path)
 
     # Files descriptor array
     files_array = []
@@ -109,8 +109,8 @@ def main():
         visibility = (".dp" in filename or ".txt" in filename)
 
         # Decide category and description field
-        category = retrieveCategory(filename)
-        description = retrieveDescription(filename, csv_descriptions)
+        category = retrieve_category(filename)
+        description = retrieve_description(filename, csv_descriptions)
 
         # Append dictionary to files descriptor array
         files_array.append({
