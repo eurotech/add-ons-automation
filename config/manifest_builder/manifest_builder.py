@@ -35,7 +35,7 @@ def retrieveDescription(filename):
 def main():
     # Get options
     parser = argparse.ArgumentParser(description="Artifact repository manifest.json file builder script")
-    parser.add_argument("-f", "--folder_path", help="Folder path for the desired manifest file", required=True)
+    parser.add_argument("-f", "--folder_path", help="Folder path where the files are stored and where the computed manifest file will be saved", required=True)
     parser.add_argument("-v", "--project_version", help="Project version as reported by maven", required=True)
     parser.add_argument("-n", "--project_name", help="Project name as reported by maven", required=True)
     parser.add_argument("-b", "--build_number", help="Build number as reported by the Jenkins build", required=True)
