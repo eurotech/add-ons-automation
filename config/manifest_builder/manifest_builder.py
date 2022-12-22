@@ -74,6 +74,9 @@ def retrieve_description(filename, csv_descriptions):
         expected_name = "%s%s%s" % (artifactID, version_seperator, values.get("version"))
 
         if noext_filename == expected_name:
+            if artifactID == values.get("description"):
+                logging.warning("ArtifactID and description match for '%s'. Was the pom.xml updated with the correct name?" % artifactID)
+
             return values.get("description")
 
     logging.warning("No match found for '%s'. Setting placeholder description." % base_filename)
@@ -83,6 +86,7 @@ def retrieve_description(filename, csv_descriptions):
 def main():
     # Get CLI arguments
     parser = argparse.ArgumentParser(description="ESF Add-ons manifest builder script", formatter_class=argparse.RawTextHelpFormatter)
+    parser.add_argument("-d", "--debug", dest="loglevel", help="enable debug logging", required=False, default=logging.WARNING, const=logging.DEBUG, action="store_const")
     parser.add_argument("-f", "--folder_path", type=str, help="Folder path where the files are stored and where the computed manifest file will be saved", required=True)
     parser.add_argument("-v", "--project_version", type=str, help="Project version as reported by maven", required=True)
     parser.add_argument("-n", "--project_name", type=str, help="Project name as reported by maven", required=True)
@@ -96,12 +100,23 @@ def main():
                             "    --quiet exec:exec > file.csv")
 
     args = parser.parse_args()
+    logging.basicConfig(level=args.loglevel)
 
     # Find all files in desired directory
+    logging.info("Running manifest builder script in '%s'" % args.folder_path)
+
     path = os.path.abspath(args.folder_path)
+    if not os.path.isdir(path):
+        logging.error("Path '%s' is not a directory" % path)
+        exit(1)
+
     filenames = glob.glob(os.path.join(path, "*"))
+    if not filenames:
+        logging.error("No files found in path: '%s'" % path)
+        exit(1)
 
     # Parse CSV file
+    logging.info("Parsing CSV file at: '%s'" % args.csv_file_path)
     csv_descriptions = parse_description_CSV_file(args.csv_file_path)
 
     # Files descriptor array
@@ -134,6 +149,7 @@ def main():
 
     # Write json content on file
     manifest_path = os.path.join(path, 'manifest.json')
+    logging.info("Writing resulting file in: '%s'" % manifest_path)
     with open(manifest_path, 'w', encoding='utf-8') as manifest_file:
         json.dump(data, manifest_file, indent=4, ensure_ascii=False)
 
