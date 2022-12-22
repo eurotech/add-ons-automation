@@ -47,9 +47,8 @@ node ("rhel-large") {
             // Copy file into separate folder
             sh """
                 mkdir ${uploadDirectory}
-                cp features/*/target/*.dp ${uploadDirectory}
-                cp bundles/*/target/*.jar ${uploadDirectory}
-                cp bundles/*/target/*.dp ${uploadDirectory}
+                cp features/*/target/*.dp ${uploadDirectory} # NOTE: Example only! Refer to original Jenkins configuration
+                cp bundles/*/target/*.jar ${uploadDirectory} # NOTE: Example only! Refer to original Jenkins configuration
                 cp RELEASE_NOTES.txt ${uploadDirectory}/RELEASE_NOTES_${pomArtifactId}_${pomVersion}.txt
             """
 
