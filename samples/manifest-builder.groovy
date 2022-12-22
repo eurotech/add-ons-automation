@@ -36,6 +36,12 @@ node ("rhel-large") {
                 }
             }
 
+            // Remove undesired output from CSV file
+            sh """
+                sed -i "/:/d" ${descriptorsFile}
+                sed -i "/-----/d" ${descriptorsFile}
+            """
+
             // Copy file into separate folder
             sh """
                 mkdir upload
