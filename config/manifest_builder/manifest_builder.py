@@ -81,7 +81,7 @@ def retrieve_description(filename, csv_descriptions):
             if artifactID == values.get("description"):
                 logging.warning("ArtifactID and description match for '%s'. Was the pom.xml updated with the correct name?" % artifactID)
 
-            return values.get("description")
+            return ("%s (%s)" % (values.get("description"), values.get("version")))
 
     logging.warning("No match found for '%s'. Setting placeholder description." % base_filename)
     return "placeholder"
@@ -136,7 +136,7 @@ def main():
         # Append dictionary to files descriptor array
         files_array.append({
             "category": category,
-            "description": ("%s (%s)" % (description, args.project_version)),
+            "description": description,
             "name": os.path.basename(filename),
             "visible": visibility,
             "md5": md5hash,
