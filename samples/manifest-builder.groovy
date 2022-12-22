@@ -2,7 +2,9 @@ node ("rhel-large") {
     deleteDir()
     def pomVersion
     def pomProjectName
+
     def descriptorsFile = "descriptors.csv"
+    def uploadDirectory = "upload"
     ...
 
     stage ("prepare") {
@@ -44,17 +46,17 @@ node ("rhel-large") {
 
             // Copy file into separate folder
             sh """
-                mkdir upload
-                cp features/*/target/*.dp ./upload
-                cp bundles/*/target/*.jar ./upload
-                cp bundles/*/target/*.dp ./upload
-                cp RELEASE_NOTES.txt ./upload/RELEASE_NOTES_${pomProjectName}_${pomVersion}.txt
+                mkdir ${uploadDirectory}
+                cp features/*/target/*.dp ${uploadDirectory}
+                cp bundles/*/target/*.jar ${uploadDirectory}
+                cp bundles/*/target/*.dp ${uploadDirectory}
+                cp RELEASE_NOTES.txt ${uploadDirectory}/RELEASE_NOTES_${pomProjectName}_${pomVersion}.txt
             """
 
             // Download and run python script
             sh """
                 curl wget https://raw.githubusercontent.com/eurotech/add-ons-automation/feat/manifest_builder/config/manifest_builder/manifest_builder.py --output manifest_builder
-                python3 manifest_builder.py -f ./upload -v ${pomVersion} -n ${pomProjectName} -b ${BUILD_NUMBER} -c ${descriptorsFile}
+                python3 manifest_builder.py -f ${uploadDirectory} -v ${pomVersion} -n ${pomProjectName} -b ${BUILD_NUMBER} -c ${descriptorsFile}
             """
         }
     }
@@ -63,7 +65,8 @@ node ("rhel-large") {
         if (PUSH_ARTIFACTS.toBoolean()) {
             withAWS(credentials: 'CHANGEME', region: 'CHANGEME') {
                 dir("workdir") {
-                    files = findFiles(glob: './upload/*')
+                    def file_path = "${uploadDirectory}/*"
+                    files = findFiles(glob: file_path)
                     files.each {
                         println "FILE:  ${it}"
                         s3Upload acl: 'Private', bucket: 'eth-repo', file: "${it}", metadatas: [''], path: "esf-bundles/${pomProjectName}/${pomVersion}_${BUILD_NUMBER}/"
