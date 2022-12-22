@@ -88,8 +88,8 @@ def main():
     parser = argparse.ArgumentParser(description="ESF Add-ons manifest builder script", formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-d", "--debug", dest="loglevel", help="enable debug logging", required=False, default=logging.WARNING, const=logging.DEBUG, action="store_const")
     parser.add_argument("-f", "--folder_path", type=str, help="Folder path where the files are stored and where the computed manifest file will be saved", required=True)
-    parser.add_argument("-v", "--project_version", type=str, help="Project version as reported by maven", required=True)
-    parser.add_argument("-n", "--project_name", type=str, help="Project name as reported by maven", required=True)
+    parser.add_argument("-v", "--project_version", type=str, help="Root project version as reported by maven", required=True)
+    parser.add_argument("-n", "--project_name", type=str, help="Root project ArtifactID as reported by maven", required=True)
     parser.add_argument("-b", "--build_number", type=int, help="Build number as reported by the Jenkins build", required=True)
     parser.add_argument("-c", "--csv_file_path", type=str, required=True,
                         help="File path to the .csv file containing artifact descriptions.\n"
