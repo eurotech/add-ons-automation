@@ -56,7 +56,11 @@ def retrieve_category(filename):
 
 
 def retrieve_description(filename, csv_descriptions):
-    """Retrieves the description for the filename passed as argument using the CSV file content"""
+    """ Retrieves the description for the filename passed as argument using the CSV file content
+
+        To match the file to the Artifact ID (and then the description) we compare the CSV file content (artifact id + version) and the filename.
+        Knowing the artifact id and the version we can reconstruct the resulting filename and thus match with the corresponding description.
+    """
 
     if ".txt" in filename:
         return "Release notes"
