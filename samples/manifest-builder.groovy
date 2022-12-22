@@ -54,7 +54,7 @@ node ("rhel-large") {
 
             // Download and run python script
             sh """
-                curl https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/manifest_builder/manifest_builder.py --output manifest_builder
+                curl https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/manifest_builder/manifest_builder.py --output manifest_builder.py
                 python3 manifest_builder.py -f ${uploadDirectory} -v ${pomVersion} -n ${pomArtifactId} -b ${BUILD_NUMBER} -c ${descriptorsFile}
             """
         }
