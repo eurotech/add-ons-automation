@@ -16,4 +16,4 @@ In other words: in order to use one of the re-usable workflows contained in the 
 
 ### `config` folder
 
-The `config` folder contains the configuration/template files needed by the re-usable workflows.
+The `config` folder contains the configuration/template files needed by the re-usable workflows and other automation pipelines.
