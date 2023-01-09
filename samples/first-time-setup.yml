@@ -1,0 +1,28 @@
+name: "Version uptick automation"
+
+on:
+  workflow_dispatch:
+    inputs:
+        esf_version:
+          type: string
+          description: ESF archetype link to use
+          default: 'https://changeme'
+          required: true
+        groupId:
+          type: string
+          description: Artifact Group ID
+          default: ''
+          required: true
+        artifactId:
+          type: string
+          description: Artifact ID
+          default: ''
+          required: true
+
+jobs:
+  call-workflow-in-public-repo:
+    uses: eurotech/add-ons-automation/.github/workflows/_shared-first-time-setup.yml@main
+    with:
+      esf_version: ${{ inputs.esf_version }}
+      groupId: ${{ inputs.groupId }}
+      artifactId: ${{ inputs.artifactId }}
