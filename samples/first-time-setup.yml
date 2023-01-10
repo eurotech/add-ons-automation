@@ -5,7 +5,12 @@ on:
     inputs:
         esf_version:
           type: string
-          description: ESF archetype link to use
+          description: ESF archetype version
+          default: '7.2.2'
+          required: true
+        archetype_url:
+          type: string
+          description: ESF archetype URL
           default: 'https://changeme'
           required: true
         groupId:
@@ -24,5 +29,6 @@ jobs:
     uses: eurotech/add-ons-automation/.github/workflows/_shared-first-time-setup.yml@main
     with:
       esf_version: ${{ inputs.esf_version }}
+      archetype_url: ${{ inputs.archetype_url }}
       groupId: ${{ inputs.groupId }}
       artifactId: ${{ inputs.artifactId }}
