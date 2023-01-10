@@ -1,4 +1,4 @@
-name: "Version uptick automation"
+name: "Repository First Time Setup automation"
 
 on:
   workflow_dispatch:
