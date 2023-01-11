@@ -62,7 +62,9 @@ jobs:
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4
       with:
-        title: "chore: Repository initialization from ESF archetype"
-        commit-message: "chore: Repository initialization from ESF archetype"
-        body: "Automated changes for repository initialization from ESF archetype version ${{ github.event.inputs.esf_version }}"
+        title: "chore: repository initialization from ESF archetype"
+        commit-message: "chore: repository initialization from ESF archetype"
+        body: |
+           Automated changes by [_First time setup automation_](https://github.com/eurotech/add-ons-automation/blob/main/.github/workflows/_shared-first-time-setup.yml) action.
+           - Repository initialization from ESF archetype version ${{ github.event.inputs.esf_version }}
         branch-suffix: short-commit-hash
