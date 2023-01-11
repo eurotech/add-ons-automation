@@ -3,11 +3,6 @@ name: "Repository First Time Setup automation"
 on:
   workflow_dispatch:
     inputs:
-        esf_version:
-          type: string
-          description: ESF archetype version
-          default: '7.2.2'
-          required: true
         archetype_url:
           type: string
           description: ESF archetype URL

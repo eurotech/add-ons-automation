@@ -3,10 +3,6 @@ name: "Repository First Time Setup automation (shared)"
 on:
   workflow_call:
     inputs:
-        esf_version:
-          type: string
-          default: '7.2.2'
-          required: true
         archetype_url:
           type: string
           default: 'https://changeme'
@@ -39,13 +35,13 @@ jobs:
       run: |
         mvn install:install-file -Dfile=${{ steps.download-file.outputs.file-path }} \
         -DgroupId=com.eurotech.framework -DartifactId=esf-addon-archetype \
-        -Dversion=${{ github.event.inputs.esf_version }} -Dpackaging=jar
+        -Dversion=ESF_ARCHETYPE -Dpackaging=jar
       shell: bash
 
     - name: Run the maven archetype generate
       run: |
         mvn archetype:generate -B -DarchetypeArtifactId=esf-addon-archetype \
-        -DarchetypeGroupId=com.eurotech.framework -DarchetypeVersion="${{ github.event.inputs.esf_version }}" \
+        -DarchetypeGroupId=com.eurotech.framework -DarchetypeVersion=ESF_ARCHETYPE \
         -DgroupId=${{ github.event.inputs.groupId }} -DartifactId=${{ github.event.inputs.artifactId }}
       shell: bash
 
@@ -66,5 +62,5 @@ jobs:
         commit-message: "chore: repository initialization from ESF archetype"
         body: |
            Automated changes by [_First time setup automation_](https://github.com/eurotech/add-ons-automation/blob/main/.github/workflows/_shared-first-time-setup.yml) action.
-           - Repository initialization from ESF archetype version ${{ github.event.inputs.esf_version }}
+           - Repository initialization from ESF archetype
         branch-suffix: short-commit-hash
