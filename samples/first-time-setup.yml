@@ -1,0 +1,28 @@
+name: "Repository First Time Setup automation"
+
+on:
+  workflow_dispatch:
+    inputs:
+        archetype_url:
+          type: string
+          description: ESF archetype URL
+          default: 'https://changeme'
+          required: true
+        groupId:
+          type: string
+          description: Artifact Group ID
+          default: ''
+          required: true
+        artifactId:
+          type: string
+          description: Artifact ID
+          default: ''
+          required: true
+
+jobs:
+  call-workflow-in-public-repo:
+    uses: eurotech/add-ons-automation/.github/workflows/_shared-first-time-setup.yml@main
+    with:
+      archetype_url: ${{ inputs.archetype_url }}
+      groupId: ${{ inputs.groupId }}
+      artifactId: ${{ inputs.artifactId }}

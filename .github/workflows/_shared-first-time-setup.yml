@@ -1,0 +1,66 @@
+name: "Repository First Time Setup automation (shared)"
+
+on:
+  workflow_call:
+    inputs:
+        archetype_url:
+          type: string
+          default: 'https://changeme'
+          required: true
+        groupId:
+          type: string
+          default: ''
+          required: true
+        artifactId:
+          type: string
+          default: ''
+          required: true
+
+jobs:
+  init:
+    if: startsWith(github.event.inputs.archetype_url, 'https://eth-repo.s3.amazonaws.com/esf')
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout ${{ github.ref }} branch in ${{ github.repository }} repository.
+      uses: actions/checkout@v3
+
+    - name: Download ESF archetype
+      uses: carlosperate/download-file-action@v1
+      id: download-file
+      with:
+        file-url: ${{ github.event.inputs.archetype_url }}
+
+    - name: Run the maven install
+      run: |
+        mvn install:install-file -Dfile=${{ steps.download-file.outputs.file-path }} \
+        -DgroupId=com.eurotech.framework -DartifactId=esf-addon-archetype \
+        -Dversion=ESF_ARCHETYPE -Dpackaging=jar
+      shell: bash
+
+    - name: Run the maven archetype generate
+      run: |
+        mvn archetype:generate -B -DarchetypeArtifactId=esf-addon-archetype \
+        -DarchetypeGroupId=com.eurotech.framework -DarchetypeVersion=ESF_ARCHETYPE \
+        -DgroupId=${{ github.event.inputs.groupId }} -DartifactId=${{ github.event.inputs.artifactId }}
+      shell: bash
+
+    - name: Copy artifactId-named folder content to the main project directory
+      run: |
+        mv ${{ github.event.inputs.artifactId }}/* .
+      shell: bash
+
+    - name: Cleanup
+      run: |
+        rm -rf ${{ github.event.inputs.artifactId }} ${{ steps.download-file.outputs.file-path }}
+      shell: bash
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        title: "chore: repository initialization from ESF archetype"
+        commit-message: "chore: repository initialization from ESF archetype"
+        body: |
+           Automated changes by [_First time setup automation_](https://github.com/eurotech/add-ons-automation/blob/main/.github/workflows/_shared-first-time-setup.yml) action.
+           - Repository initialization from ESF archetype
+        branch-suffix: short-commit-hash
