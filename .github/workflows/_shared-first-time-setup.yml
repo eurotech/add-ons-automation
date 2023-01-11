@@ -24,6 +24,9 @@ jobs:
   init:
     runs-on: ubuntu-latest
     steps:
+    
+     - name: Checkout ${{ github.ref }} branch in ${{ github.repository }} repository.
+      uses: actions/checkout@v3
 
     - name: Download ESF archetype
       if: startsWith(${{ github.event.inputs.archetype_url }}, 'https://eth-repo.s3.amazonaws.com/esf')
