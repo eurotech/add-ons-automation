@@ -23,7 +23,6 @@ jobs:
   call-workflow-in-public-repo:
     uses: eurotech/add-ons-automation/.github/workflows/_shared-first-time-setup.yml@main
     with:
-      esf_version: ${{ inputs.esf_version }}
       archetype_url: ${{ inputs.archetype_url }}
       groupId: ${{ inputs.groupId }}
       artifactId: ${{ inputs.artifactId }}
