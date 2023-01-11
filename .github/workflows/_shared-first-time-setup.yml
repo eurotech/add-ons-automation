@@ -27,13 +27,14 @@ jobs:
 
     - name: Download ESF archetype
       uses: carlosperate/download-file-action@v1
+      id: download-file
       with:
         file-url: ${{ github.event.inputs.archetype_url }}
       if: startsWith(${{ github.event.inputs.archetype_url }}, 'https://eth-repo.s3.amazonaws.com/esf')
 
     - name: Run the maven install
       run: |
-        mvn install:install-file -Dfile=esf-addon-archetype-${{ github.event.inputs.esf_version }}.jar \
+        mvn install:install-file -Dfile=${{ steps.download-file.outputs.file-path }} \
         -DgroupId=com.eurotech.framework -DartifactId=esf-addon-archetype \
         -Dversion=${{ github.event.inputs.esf_version }} -Dpackaging=jar
       shell: bash
