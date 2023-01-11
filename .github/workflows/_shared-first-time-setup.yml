@@ -53,7 +53,7 @@ jobs:
 
     - name: Cleanup
       run: |
-        rm ${{ github.event.inputs.artifactId }} ${{ steps.download-file.outputs.file-path }}
+        rm -rf ${{ github.event.inputs.artifactId }} ${{ steps.download-file.outputs.file-path }}
       shell: bash
 
     - name: Create Pull Request
