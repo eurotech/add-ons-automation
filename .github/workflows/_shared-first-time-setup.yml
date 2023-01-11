@@ -26,11 +26,11 @@ jobs:
     steps:
 
     - name: Download ESF archetype
+      if: startsWith(${{ github.event.inputs.archetype_url }}, 'https://eth-repo.s3.amazonaws.com/esf')
       uses: carlosperate/download-file-action@v1
       id: download-file
       with:
         file-url: ${{ github.event.inputs.archetype_url }}
-      if: startsWith(${{ github.event.inputs.archetype_url }}, 'https://eth-repo.s3.amazonaws.com/esf')
 
     - name: Run the maven install
       run: |
