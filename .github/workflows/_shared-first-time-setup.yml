@@ -51,9 +51,9 @@ jobs:
         mv ${{ github.event.inputs.artifactId }}/* .
       shell: bash
 
-    - name: Remove artifactId-named folder
+    - name: Cleanup
       run: |
-        rm ${{ github.event.inputs.artifactId }}
+        rm ${{ github.event.inputs.artifactId }} ${{ steps.download-file.outputs.file-path }}
       shell: bash
 
     - name: Create Pull Request
