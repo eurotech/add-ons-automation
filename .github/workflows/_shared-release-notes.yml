@@ -14,12 +14,12 @@ jobs:
     steps:
 
     - name: Checkout ${{ github.ref }} branch in ${{ github.repository }} repository.
-      uses: actions/checkout@v3
+      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
       with:
         fetch-depth: '0'
 
     - name: Setup Java
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4.8.0
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '11' # Required by the git-changelog-command-line tool
@@ -48,18 +48,18 @@ jobs:
 
     - name: Download git-changelog-command-line tool
       id: download-changelog-cli
-      uses: carlosperate/download-file-action@v1
+      uses: carlosperate/download-file-action@8b89cb8b4807765e7d63fe765cc600eb1919af11 # v1.1.2
       with:
         file-url: https://repo1.maven.org/maven2/se/bjurr/gitchangelog/git-changelog-command-line/1.100.2/git-changelog-command-line-1.100.2.jar
         md5: 09d5fc8b57b3fa9adb94c8d207630cfc
 
     - name: Download release notes template
-      uses: carlosperate/download-file-action@v1
+      uses: carlosperate/download-file-action@8b89cb8b4807765e7d63fe765cc600eb1919af11 # v1.1.2
       with:
         file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/release_notes/template.hbs
 
     - name: Download release notes helper
-      uses: carlosperate/download-file-action@v1
+      uses: carlosperate/download-file-action@8b89cb8b4807765e7d63fe765cc600eb1919af11 # v1.1.2
       with:
         file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/release_notes/helper.hbs
 
@@ -88,7 +88,7 @@ jobs:
       shell: bash
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v4
+      uses: peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54 # v4.2.4
       with:
         title: "chore: add ${{ steps.get-version.outputs.resolved-version }} release notes"
         commit-message: "chore: add ${{ steps.get-version.outputs.resolved-version }} release notes"
