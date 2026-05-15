@@ -95,4 +95,4 @@ jobs:
         body: |
            Automated changes by [_Release Notes automation_](https://github.com/eurotech/add-ons-automation/blob/main/.github/workflows/_shared-release-notes.yml) action.
            - Add ${{ steps.get-version.outputs.version }} version release notes since commit `${{ github.event.inputs.starting_commit }}` (non-inclusive).
-        branch-suffix: short-commit-hash
+        branch-suffix: timestamp
