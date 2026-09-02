@@ -7,4 +7,4 @@ on:
 
 jobs:
   call-workflow-in-public-repo:
-    uses: eurotech/add-ons-automation/.github/workflows/_shared-validate-metatypes@main
+    uses: eurotech/add-ons-automation/.github/workflows/_shared-validate-metatypes.yml@main
