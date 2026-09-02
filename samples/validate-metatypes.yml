@@ -1,4 +1,4 @@
-name: "Build & Deploy docs"
+name: "Validate metatypes"
 
 on:
   push:
