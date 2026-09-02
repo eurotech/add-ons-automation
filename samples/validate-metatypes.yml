@@ -1,9 +1,13 @@
 name: "Validate metatypes"
 
 on:
-  push:
+  pull_request:
     branches:
-      - 'release-7.*' # Branches not using annotations
+      - release-7.* # Branches not using annotations
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 jobs:
   call-workflow-in-public-repo:
