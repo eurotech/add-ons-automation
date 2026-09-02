@@ -1,0 +1,14 @@
+name: "Validate metatypes"
+
+on:
+  pull_request:
+    branches:
+      - release-7.* # Branches not using annotations
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  call-workflow-in-public-repo:
+    uses: eurotech/add-ons-automation/.github/workflows/_shared-validate-metatypes.yml@main
