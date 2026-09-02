@@ -19,7 +19,7 @@ jobs:
         id: download-schema
         uses: carlosperate/download-file-action@8b89cb8b4807765e7d63fe765cc600eb1919af11 # v1.1.2
         with:
-          file-url: https://raw.githubusercontent.com/eurotech/add-ons-automation/main/config/xsd/kura-metatype-1.2.0.xsd
+          file-url: https://raw.githubusercontent.com/eclipse-kura/kura/refs/heads/release-5.6.0/.github/xsd/kura-metatype-1.2.0.xsd
 
       - name: Validate metatypes against XSD
         # archetype-resources are Velocity templates, not parseable XML
