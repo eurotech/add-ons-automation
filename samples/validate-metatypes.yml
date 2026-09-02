@@ -1,0 +1,10 @@
+name: "Build & Deploy docs"
+
+on:
+  push:
+    branches:
+      - 'release-7.*' # Branches not using annotations
+
+jobs:
+  call-workflow-in-public-repo:
+    uses: eurotech/add-ons-automation/.github/workflows/_shared-validate-metatypes@main
